@@ -19,7 +19,7 @@ def paged(func):
         max_page = page
         blank_pages = 0
         while page <= max_page or blank_pages < 10:
-            print('page:', page)
+            print('page:', page, flush=True)
             result = yield from func(*args, page=page, **kwargs)
             if result:
                 max_page = result
@@ -107,10 +107,14 @@ def fetch_all_posts(user, page, cookie=COOKIE, user_agent=USER_AGENT):
             state = True
         if element['class'] == ['pa']:
             return int(element.text[element.text.rfind('/') + 1:-1]) if has_result else None
+        if element['class'] == ['pm']:
+            return
         if element['class'] != ['c']:
             continue
         if not state:
             continue
+        if element.text.endswith('还没发过微博.'):
+            return
         has_result = True
         data = parse_post(element)
         origin = None
@@ -170,6 +174,8 @@ def fetch_all_comments(post, page, cookie=COOKIE, user_agent=USER_AGENT):
             state = True
         if element['class'] == ['pa']:
             return int(element.text[element.text.rfind('/') + 1:-1]) if has_result else None
+        if element['class'] == ['pm']:
+            return
         if element['class'] != ['c']:
             continue
         if not state:
@@ -207,6 +213,8 @@ def fetch_all_votes(post, page, cookie=COOKIE, user_agent=USER_AGENT):
             state = True
         if element['class'] == ['pa']:
             return int(element.text[element.text.rfind('/') + 1:-1]) if has_result else None
+        if element['class'] == ['pm']:
+            return
         if element['class'] != ['c']:
             continue
         if not state:
