@@ -10,8 +10,31 @@ from models import *
 from parsers import *
 
 USER_AGENT = 'Mozilla/5.0 (Windows NT 10.0; WOW64; rv:49.0) Gecko/20100101 Firefox/49.0'
-with open('cookie.txt') as f:
-    COOKIE = f.read().strip()
+try:
+    with open('cookie.txt') as f:
+        COOKIE = f.read().strip()
+except FileNotFoundError:
+    COOKIE = ''
+
+
+def set_cookie_from_file(path):
+    global COOKIE
+    import http.cookiejar
+    cookie = http.cookiejar.MozillaCookieJar()
+    cookie.load(path, ignore_discard=True, ignore_expires=True)
+    COOKIE = '; '.join(i.name + '=' + i.value for i in cookie)
+
+
+def set_cookie_from_curl(curl):
+    global COOKIE
+    start = curl.find('Cookie: ') + 8
+    end = curl.find("'", start)
+    COOKIE = curl[start:end]
+
+
+def set_cookie(cookie):
+    global COOKIE
+    COOKIE = cookie
 
 
 def paged(func):
