@@ -23,6 +23,7 @@ from weibo import *
 set_cookie()
 
 # Fetch 微博小秘书's profile
+# This number can be get by following the link "资料" on https://weibo.cn/sinat to https://weibo.cn/1642909335/info
 user = fetch_user(1642909335)
 print(user)
 for info in user.info_set:
