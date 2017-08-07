@@ -10,12 +10,12 @@ Any question, problem or suggestion? Feel free to [contact me](mailto:hypercube@
 # First, import the lib
 from weibo import *
 
-# You need to set the cookie. After logged into Weibo, there're 4 ways to do that (choose any one of them):
+# You need to set the cookie. After logged in, there're 4 ways to do that (choose any one of them):
 # 1. Press F12 in the browser, then open https://weibo.cn/. Get the raw cookie string at "Request Headers" -> "Cookie";
 #    It should be a very long line like "_T_WM=1234; A=5678; B=abcd". Write it to a file called "cookie.txt" before the
 #    program starts.
 # 2. Call set_cookie(raw_cookie_string).
-# 3. Install "Copy as Curl" plugin and copy a link as a curl command. You should get something a very long line like
+# 3. Install "Copy as Curl" plugin and copy a link as a curl command. You should get a very long line like
 #    "curl --header 'Host: weibo.cn' --header 'User-Agent: ...' --header 'Cookie: a=1; b=2; c=3' 'https://weibo.cn/'".
 #    Call set_cookie_from_curl(curl_command).
 # 4. Try to get a "cookie file". I don't know what it is, but some people told me it's pretty easy to get.
