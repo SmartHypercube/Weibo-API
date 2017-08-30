@@ -60,17 +60,20 @@ def parse_user_info(soup):
 def parse_user(soup):
     """https://weibo.cn/u/{user.id} .u | https://weibo.cn/{user.alias} .u"""
     data = {}
-    for e in soup.table.div.children:
-        if catch(e, 'a', '', '资料'):
-            data['id'] = e['href'][1:-5]
-    for e in soup.find(class_='tip2').children:
-        if catch(e, 'span', 'tc', '微博['):
-            data['post_count'] = int(e.text[3:-1])
-        elif catch(e, 'a', '', '关注['):
-            data['following_count'] = int(e.text[3:-1])
-        elif catch(e, 'a', '', '粉丝['):
-            data['follower_count'] = int(e.text[3:-1])
-    return data
+    try:
+        for e in soup.table.div.children:
+            if catch(e, 'a', '', '资料'):
+                data['id'] = e['href'][1:-5]
+        for e in soup.find(class_='tip2').children:
+            if catch(e, 'span', 'tc', '微博['):
+                data['post_count'] = int(e.text[3:-1])
+            elif catch(e, 'a', '', '关注['):
+                data['following_count'] = int(e.text[3:-1])
+            elif catch(e, 'a', '', '粉丝['):
+                data['follower_count'] = int(e.text[3:-1])
+        return data
+    except:
+        return {'id': 0, 'post_count': 0, 'following_count': 0, 'follower_count': 0}
 
 
 def parse_post(soup):

@@ -41,7 +41,7 @@ def paged(func):
     def wrapper(*args, page=1, **kwargs):
         max_page = page
         blank_pages = 0
-        while page <= max_page or blank_pages < 10:
+        while page <= max_page or blank_pages < 1:
             print('page:', page, flush=True)
             result = yield from func(*args, page=page, **kwargs)
             if result:
@@ -207,6 +207,8 @@ def fetch_all_comments(post, page, cookie=COOKIE, user_agent=USER_AGENT):
             continue
         if element.text == '还没有人针对这条微博发表评论!':
             return
+        if 'id' not in element.attrs:
+            continue
         has_result = True
         data = parse_comment(element)
         comment, created = Comment.get_or_create(cid=data['id'], defaults={
